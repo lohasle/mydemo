@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<!-- 配置目标类 -->
+	<bean id="helloser" class="demo.spring.aop.service.impl.HelloWorldServiceImpl"></bean>
+	
+	<!-- 配置切面 -->
+	<bean id="aspect" class="demo.spring.aop.aop.HelloWorldAspect"/>
+	<aop:config>
+		<!-- 定义切入点  -->
+		<aop:pointcut id="pointcut" expression="execution(* demo.spring.aop..*.*(..))"/>
+		<aop:aspect ref="aspect">
+			<aop:before pointcut-ref="pointcut" method="beforeAdvice"/>
+			<aop:after pointcut="execution(* demo.spring.aop..*.*(..))" method="afterFinallyAdvice"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- 配置切面 -->
+	<bean id="aspect2" class="demo.spring.aop.aop.HelloWorldAspectTwo"/>
+	<aop:config>
+		<aop:aspect ref="aspect2">
+			<aop:before pointcut="execution(* demo.spring.aop.service..*.sayParams(..)) and args(params)" method="beforeAdvice(java.lang.String)" arg-names="params"/>
+			<aop:after-returning pointcut="execution(* demo.spring.aop.service..*.sayHasReturn(..))" method="afterReturningAdvice" arg-names="name"   returning="name"/>
+			<aop:after-throwing pointcut="execution(* demo.spring.aop.service..*.sayTheWorng(..))" method="afterThrowingAdvice" arg-names="exception" throwing="exception"/>
+			<aop:after pointcut="execution(* demo.spring.aop.service..*.sayFinally(..))" method="afterFinallyAdvice"  />
+			<aop:around pointcut="execution(* demo.spring.aop.service..*.sayAround(..))" method="aroundAdvice"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

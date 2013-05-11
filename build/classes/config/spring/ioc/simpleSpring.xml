@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+
+	<!-- bean的默认注入 生命周期是singleton 单例的 -->
+	<bean id="diaosi" class="demo.spring.di.vo.Diaosi" scope="prototype">
+		<constructor-arg index="0" value="张三"></constructor-arg>
+		<constructor-arg index="1" value="23"></constructor-arg>
+		<constructor-arg index="2">
+			<list>
+				<value>篮球</value>
+				<value>足球</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="3">  
+			<map>  
+				<entry key="liuhua" value="man"></entry>  
+				<entry key="xujinglei" value="female"></entry>  
+			</map>  
+		</constructor-arg> 
+		<constructor-arg index="4">
+			<set>
+				<value>Lady is GaGa</value>  
+				<value>GaGa is Lady</value>
+			</set>
+		</constructor-arg>
+		<!-- boolean类型的参数，在配置的时候可以是true/false或者0/1 -->
+		<constructor-arg index="5" value="0"></constructor-arg>
+	</bean>
+	
+	
+	
+	<bean id="diaosi2" class="demo.spring.di.vo.Diaosi" factory-method="newIntance" >
+		<constructor-arg index="0" value="李四"></constructor-arg>
+		<constructor-arg index="1" value="33"></constructor-arg>
+		<constructor-arg index="2">
+			<list>
+				<value>篮球</value>
+				<value>pai球</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="3">  
+			<map>  
+				<entry key="liuhua" value="man"></entry>  
+				<entry key="xujinglei" value="female"></entry>  
+			</map>  
+		</constructor-arg> 
+		<constructor-arg index="4">
+			<set>
+				<value>Lady is GaGa</value>  
+				<value>GaGa is Lady</value>
+			</set>
+		</constructor-arg>
+		<!-- boolean类型的参数，在配置的时候可以是true/false或者0/1 -->
+		<constructor-arg index="5" value="0"></constructor-arg>
+	</bean>
+	
+	<bean id="beanInstanceFactory" class="demo.spring.di.vo.Diaosi">
+		<property name="age">
+			<value>122</value>
+		</property>
+	</bean>
+	
+	
+	<!-- *************测试生命周期************** -->
+	<bean id="diaosi3" factory-bean="beanInstanceFactory" factory-method="newIntance" init-method="init" destroy-method="destroy">
+		<constructor-arg index="0" value="张三"></constructor-arg>
+	</bean>
+	<bean id="ds" class="demo.spring.di.vo.Diaosi2" init-method="init" destroy-method="destroy" depends-on="diaosi3">
+		<property name="diaosi" ref="diaosi3">
+		</property>
+	</bean>
+	
+	
+	<bean id="dsimpl"  class="demo.spring.di.svr.impl.TestCh01Impl">
+	</bean>
+	
+	<bean id="diaosiac"  class="demo.spring.di.svr.ac.DiaoSiAc" >
+		<property name="ds" ref="dsimpl"></property>
+	</bean>
+	
+	<!-- *************测试方法的注入************** -->
+	
+	<bean id="prototypePrinter"  class="demo.spring.di.vo.PrintMechine"  scope="prototype">
+	</bean>
+	
+	<bean id="singletonPrinter" class="demo.spring.di.vo.PrintMechine" scope="singleton">
+	</bean>
+	 
+	<bean id="doSi1" class="demo.spring.di.svr.impl.DoSometingImpl" scope="singleton">
+		<property name="printMechine" ref="prototypePrinter">
+		</property>
+		<lookup-method name="createPrototypePrinter" bean="prototypePrinter" />
+		<lookup-method name="createSingletonPrinter" bean="singletonPrinter" />
+	</bean>
+	
+	<bean id="doSi2" class="demo.spring.di.svr.impl.DoSometingImpl" scope="prototype">
+		<property name="printMechine" ref="prototypePrinter">
+		</property>
+		<lookup-method name="createPrototypePrinter" bean="prototypePrinter" />
+		<lookup-method name="createSingletonPrinter" bean="singletonPrinter" />
+	</bean>
+	
+	<bean id="asyncCommand" class="demo.spring.di.svr.impl.AsyncCommand" scope="prototype"> 
+	</bean>
+	<bean id="commandManager" class="demo.spring.di.commons.CommandManager">
+	</bean>
+	<bean id="commandManager2" class="demo.spring.di.commons.CommandManager2">
+		<lookup-method name="createCommand" bean="asyncCommand"/>
+	</bean>
+	
+	
+	<!-- 自定义作用域 -->
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry>
+					<!-- 指定scope关键字 -->
+					<key>
+						<value>thread</value>
+					</key>
+					<!-- scope实现 -->      
+					<bean class="demo.spring.di.svr.impl.ThreadScope"/>
+				</entry>
+			</map>     
+		</property>
+	</bean>
+	<bean id="testDiyScope" class="demo.spring.di.vo.Diaosi" />
+</beans>
