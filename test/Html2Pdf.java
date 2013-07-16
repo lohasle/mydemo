@@ -103,8 +103,8 @@ public class Html2Pdf {
      * @throws Exception
      */
     public static void htmlToPdf3() throws Exception {
-        String inputFile = "D:\\TempTest\\office\\convent\\html2pdf\\付乐.html";
-        String outFile = "D:\\TempTest\\office\\convent\\html2pdf\\付乐.pdf";
+        String inputFile = "C:\\D\\TestTemp\\Office\\convent\\html2pdf\\2.html";
+        String outFile = "C:\\D\\TestTemp\\Office\\convent\\html2pdf\\2.pdf";
         OutputStream os = new FileOutputStream(outFile);
         ITextRenderer renderer = new ITextRenderer();
         ITextFontResolver fontResolver = renderer.getFontResolver();

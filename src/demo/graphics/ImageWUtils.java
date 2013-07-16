@@ -1,5 +1,4 @@
-﻿package com.ztenc.oa.proj.util;
-
+﻿package demo.graphics;
 
 
 import java.awt.Color;
@@ -9,7 +8,6 @@ import java.awt.RenderingHints;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.AttributedString;
 import java.util.ArrayList;
@@ -20,13 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
-import javax.xml.crypto.Data;
-
-import org.eclipse.emf.ecore.InternalEObject.EStore;
-import org.jgroups.demos.Chat;
-
-import com.sun.corba.se.spi.orb.StringPair;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 /**
  * 文字写入图层背景工具类

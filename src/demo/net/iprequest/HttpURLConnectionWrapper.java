@@ -48,7 +48,7 @@ public class HttpURLConnectionWrapper extends HttpURLConnection {
 			IOException {
 		// TODO Auto-generated method stub
 		HttpURLConnectionWrapper ht = new HttpURLConnectionWrapper(new URL(
-				"http://www.douban.com"));
+				"http://192.168.123.20/serverWeb/print/order_print.jsp?orderId=167&orderType=pre_order"));
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				ht.getInputStream(), "utf-8"));
 		String line;
@@ -56,6 +56,7 @@ public class HttpURLConnectionWrapper extends HttpURLConnection {
 		while ((line = in.readLine()) != null) {
 			result += "\n" + line;
 			// wfWriter.write(line);
+			System.out.println(result);
 		}
 		in.close();
 		//System.out.println(result);
